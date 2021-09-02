@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Item from './components/Item';
 import Button from './components/Button';
+import List from './components/List'
 import './App.css';
 
 const initialPrizePool = [{ "name": "66矿石", "prob": .3 },
@@ -15,9 +16,9 @@ const initialPrizePool = [{ "name": "66矿石", "prob": .3 },
 
 const App = () => {
   // const [prizePool, setPrizePool] = useState(initialPrizePool);
-  const prizePool=initialPrizePool;
+  const prizePool = initialPrizePool;
   const [stone, setStone] = useState(2000);
-  const [lottery, setLottery] = useState({});
+  const [lotteryList, setLotteryList] = useState([]);
   const [active, setActive] = useState(null);
 
   const handleLottery = () => {
@@ -32,19 +33,25 @@ const App = () => {
     let lotteryIndex = Math.random();
     for (let i = 0; i < accProb.length; i++) {
       if (lotteryIndex <= accProb[i]) {
-        lotteryIndex = i+1;
+        lotteryIndex = i + 1;
         break;
       }
     }
-    setLottery(prizePool[lotteryIndex]);
-    const move = lotteryIndex-1 + 9 * 2;
+    const move = lotteryIndex - 1 + 9 * 2;
     console.log('lo', lotteryIndex)
-    console.log('move',move);
+    console.log('move', move);
     let i = 1;
     let circleRun = setInterval(() => {
-      i <= move ? setActive((i+1) % 9) : clearInterval(circleRun)
-      i++;
+      if (i <= move) {
+        setActive((i + 1) % 9);
+        i++;
+      } else {
+        
+        clearInterval(circleRun);
+        setLotteryList([...lotteryList, prizePool[lotteryIndex - 1]])
+      }
     }, 200)
+
 
   }
 
@@ -76,6 +83,11 @@ const App = () => {
             </div>
           </div>
         </div >
+      </div>
+      <div className='lotteryList'>
+        <ul>
+          <List list={lotteryList} />
+        </ul>
       </div>
     </div>
 
