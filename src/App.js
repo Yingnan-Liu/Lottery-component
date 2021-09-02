@@ -14,7 +14,8 @@ const initialPrizePool = [{ "name": "66矿石", "prob": .3 },
 
 
 const App = () => {
-  const [prizePool, setPrizePool] = useState(initialPrizePool);
+  // const [prizePool, setPrizePool] = useState(initialPrizePool);
+  const prizePool=initialPrizePool;
   const [stone, setStone] = useState(2000);
   const [lottery, setLottery] = useState({});
   const [active, setActive] = useState(null);
@@ -31,19 +32,18 @@ const App = () => {
     let lotteryIndex = Math.random();
     for (let i = 0; i < accProb.length; i++) {
       if (lotteryIndex <= accProb[i]) {
-        lotteryIndex = i;
+        lotteryIndex = i+1;
         break;
       }
     }
     setLottery(prizePool[lotteryIndex]);
-    const move = lotteryIndex + 9 * 2;
+    const move = lotteryIndex-1 + 9 * 2;
     console.log('lo', lotteryIndex)
     console.log('move',move);
-    let i = 0;
+    let i = 1;
     let circleRun = setInterval(() => {
-      i < move ? setActive(i % 9) : clearInterval(circleRun)
+      i <= move ? setActive((i+1) % 9) : clearInterval(circleRun)
       i++;
-      console.log(i);
     }, 200)
 
   }
@@ -63,7 +63,10 @@ const App = () => {
             </div>
             <div className='row'>
               <div><Item num={8} prize={prizePool[7]} active={active} /></div>
-              <div><Button text='抽奖' handleLottery={handleLottery} /></div>
+              <div>
+                <Button text='抽奖' handleLottery={handleLottery} />
+                <div>200矿石/次</div>
+              </div>
               <div><Item num={4} prize={prizePool[3]} active={active} /></div>
             </div>
             <div className='row'>
