@@ -17,6 +17,7 @@ const App = () => {
   const [lotteryList, setLotteryList] = useState([]);
   const [active, setActive] = useState(null);
   const [loaded, setLoaded] = useState(false);
+  const [isLottery, setIsLottery]=useState(false);
 
   const hook = () => axios.get(baseUrl)
     .then(res => {
@@ -30,6 +31,10 @@ const App = () => {
 
 
   const handleLottery = () => {
+    if(isLottery){
+      return;
+    }
+    setIsLottery(true);
     if (stone < 200) {
       alert('矿石不足');
       return;
@@ -55,6 +60,7 @@ const App = () => {
       } else {
         clearInterval(circleRun);
         setLotteryList([...lotteryList, prizePool[lotteryIndex - 1]]);
+        setIsLottery(false);
         if(lotteryIndex===1){
           setStone(stone+66);
         }
