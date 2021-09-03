@@ -17,7 +17,6 @@ const App = () => {
   const [lotteryList, setLotteryList] = useState([]);
   const [active, setActive] = useState(null);
   const [loaded, setLoaded] = useState(false);
-  const [time, setTime]=useState(0);
 
   const hook = () => axios.get(baseUrl)
     .then(res => {
@@ -37,7 +36,6 @@ const App = () => {
     }
     //抽奖过程
     setStone(stone - 200);
-    setTime(time+1);
     const accProb = []
     prizePool.map(p => p.prob).reduce((pre, cur, i) => accProb[i] = pre + cur, 0)
     let lotteryIndex = Math.random();
@@ -48,14 +46,13 @@ const App = () => {
       }
     }
     const move = lotteryIndex - 1 + 9 * 2;
-    console.log('lo', lotteryIndex)
+    // console.log('lo', lotteryIndex)
     let i = 1;
     let circleRun = setInterval(() => {
       if (i <= move) {
         setActive((i + 1) % 9);
         i++;
       } else {
-
         clearInterval(circleRun);
         setLotteryList([...lotteryList, prizePool[lotteryIndex - 1]])
       }
@@ -96,7 +93,7 @@ const App = () => {
       </div>
       <div className='lotteryList'>
         <ul>
-          <List list={lotteryList} n={time} />
+          <List list={lotteryList}/>
         </ul>
       </div>
     </div >

@@ -1,19 +1,36 @@
 {
-  "posts": [
-    {
-      "id": 1,
-      "title": "json-server",
-      "author": "typicode"
-    }
-  ],
-  "comments": [
-    {
-      "id": 1,
-      "body": "some comment",
-      "postId": 1
-    }
-  ],
-  "profile": {
-    "name": "typicode"
-  }
+	"prizePool": [
+		{
+			"name": "66矿石",
+			"prob": 0.3
+		},
+		{
+			"name": "2号奖品",
+			"prob": 0.1
+		},
+		{
+			"name": "3号奖品",
+			"prob": 0.1
+		},
+		{
+			"name": "4号奖品",
+			"prob": 0.1
+		},
+		{
+			"name": "5号奖品",
+			"prob": 0.1
+		},
+		{
+			"name": "6号奖品",
+			"prob": 0.1
+		},
+		{
+			"name": "7号奖品",
+			"prob": 0.1
+		},
+		{
+			"name": "8号奖品",
+			"prob": 0.1
+		}
+	]
 }
