@@ -54,7 +54,10 @@ const App = () => {
         i++;
       } else {
         clearInterval(circleRun);
-        setLotteryList([...lotteryList, prizePool[lotteryIndex - 1]])
+        setLotteryList([...lotteryList, prizePool[lotteryIndex - 1]]);
+        if(lotteryIndex===1){
+          setStone(stone+66);
+        }
       }
     }, 150)
 
