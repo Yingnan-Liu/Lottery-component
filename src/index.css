@@ -1,26 +1,29 @@
+.stone{
+  color:azure;
+}
+
 .bg {
   width: 500px;
   height: 500px;
-  background-color: blue;
+  background-color: #3A6AF0;
   margin: 0 auto;
-  border: 1px solid black;
   /* box-sizing:border-box; */
 }
 
 .board {
   width: 80%;
   height: 65%;
-  background-color: lightyellow;
+  background-color: #DE7424;
   margin: 25% 10% 10%;
   position: relative;
 }
 
 .boardContainer {
-  border:5px solid brown;
+  /* border:5px solid #DE7622; */
   width: 360px;
   height: 300px;
   /* padding:5%; */
-  background-color:brown;
+  background-color:#DE7622;
   margin:5% auto 5%;
   position: absolute;
   top:50%;
@@ -41,11 +44,11 @@
 }
 
 .item {
-  background-color: white ;
+  background-color: #FAF4F4;
   width:100px;
   height:80px;
 }
 .itemActivate{
-  background-color: yellow;
+  background-color: #F9CD8C;
 }
 

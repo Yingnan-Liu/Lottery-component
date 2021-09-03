@@ -59,14 +59,14 @@ const App = () => {
         clearInterval(circleRun);
         setLotteryList([...lotteryList, prizePool[lotteryIndex - 1]])
       }
-    }, 200)
+    }, 150)
 
 
   }
   return (
     <div>
       <div className='bg'>
-        <div>
+        <div className='stone'>
           当前矿石数：{stone}
         </div>
         <div className="board">
