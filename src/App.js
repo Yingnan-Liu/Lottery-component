@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Item from './components/Item';
 import Button from './components/Button';
@@ -17,7 +17,7 @@ const App = () => {
   const [lotteryList, setLotteryList] = useState([]);
   const [active, setActive] = useState(null);
   const [loaded, setLoaded] = useState(false);
-  const [isLottery, setIsLottery]=useState(false);
+  const [isLottery, setIsLottery] = useState(false);
 
   const hook = () => axios.get(baseUrl)
     .then(res => {
@@ -31,7 +31,7 @@ const App = () => {
 
 
   const handleLottery = () => {
-    if(isLottery){
+    if (isLottery) {
       return;
     }
     setIsLottery(true);
@@ -61,8 +61,8 @@ const App = () => {
         clearInterval(circleRun);
         setLotteryList([...lotteryList, prizePool[lotteryIndex - 1]]);
         setIsLottery(false);
-        if(lotteryIndex===1){
-          setStone(stone+66);
+        if (lotteryIndex === 1) {
+          setStone(stone + 66);
         }
       }
     }, 150)
@@ -70,14 +70,11 @@ const App = () => {
 
   }
   return (
-    <div>
+    <div className="App">
       <div className='bg'>
-        <div className='stone'>
-          当前矿石数：{stone}
-        </div>
-        <div className="board">
-          {loaded?
-             <div className='boardContainer'>
+        {loaded ?
+          <div className="board">
+            <div className='boardContainer'>
               <div className='row'>
                 <div><Item num={1} prize={prizePool[0]} active={active} /></div>
                 <div><Item num={2} prize={prizePool[1]} active={active} /></div>
@@ -86,8 +83,7 @@ const App = () => {
               <div className='row'>
                 <div><Item num={8} prize={prizePool[7]} active={active} /></div>
                 <div>
-                  <Button text='抽奖' handleLottery={handleLottery} />
-                  <div>200矿石/次</div>
+                  <Button handleLottery={handleLottery} />
                 </div>
                 <div><Item num={4} prize={prizePool[3]} active={active} /></div>
               </div>
@@ -97,17 +93,23 @@ const App = () => {
                 <div><Item num={5} prize={prizePool[4]} active={active} /></div>
               </div>
             </div>
-             : <div>加载数据...</div>} 
-        </div >
+            <div className='remind-text'>
+              当前矿石数：{stone}
+              <div>200矿石/次</div>
+            </div>
+          </div>
+          : <div className="loading">加载数据...</div>}
       </div>
-      <div className='lotteryList'>
+
+
+      <div className='lottery-list'>
+        <div className="list-head">获奖记录</div>
         <ul>
-          <List list={lotteryList}/>
+          <List list={lotteryList} />
         </ul>
       </div>
-    </div >
-  )
-
+    </div>
+  );
 }
 
 export default App;
