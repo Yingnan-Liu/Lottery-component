@@ -1,9 +1,9 @@
 import React from 'react'
 
-const List = ({list}) => {
+const List = ({list,n}) => {
 	return (
 		<div>
-			{list.map(item =><li>{item.name}</li>)}
+			{list.map(item =><li key={n} >{item.name}</li>)}
 		</div>
 	)
 }
