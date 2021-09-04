@@ -1,10 +1,9 @@
 import React from 'react'
 
-const Button = ({text,handleLottery}) => {
+const Button = ({ handleLottery }) => {
 	return (
 		<div>
-			<button onClick={handleLottery}>
-				{text}
+			<button onClick={handleLottery} className="lottery-btn">
 			</button>
 		</div>
 	)

@@ -67,11 +67,10 @@ const App = () => {
   };
 
   return (
-    <div>
+    <div className="App">
       <div className="bg">
-        <div className="stone">当前矿石数：{stone}</div>
-        <div className="board">
-          {loaded ? (
+        {loaded ? (
+          <div className="board">
             <div className="boardContainer">
               <div className="row">
                 <div>
@@ -86,11 +85,7 @@ const App = () => {
               </div>
               <div className="row">
                 <div>
-                  <Item num={8} prize={prizePool[7]} active={active} />
-                </div>
-                <div>
-                  <Button text="抽奖" handleLottery={handleLottery} />
-                  <div>200矿石/次</div>
+                  <Button handleLottery={handleLottery} />
                 </div>
                 <div>
                   <Item num={4} prize={prizePool[3]} active={active} />
@@ -108,12 +103,18 @@ const App = () => {
                 </div>
               </div>
             </div>
-          ) : (
-            <div>加载数据...</div>
-          )}
-        </div>
+            <div className="remind-text">
+              当前矿石数：{stone}
+              <div>200矿石/次</div>
+            </div>
+          </div>
+        ) : (
+          <div className="loading">加载数据...</div>
+        )}
       </div>
-      <div className="lotteryList">
+
+      <div className="lottery-list">
+        <div className="list-head">获奖记录</div>
         <ul>
           <List list={lotteryList} />
         </ul>
