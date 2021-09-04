@@ -5,7 +5,8 @@ import Button from "./components/Button";
 import List from "./components/List";
 import "./App.css";
 
-const baseUrl = "http://localhost:3002/prizePool";
+const baseUrl = "http://localhost:3000/prizePool";
+const getPrize = "http://localhost:3000/prizeResult";
 
 const App = () => {
   const [prizePool, setPrizePool] = useState([]);
@@ -13,36 +14,43 @@ const App = () => {
   const [lotteryList, setLotteryList] = useState([]);
   const [active, setActive] = useState(null);
   const [loaded, setLoaded] = useState(false);
+  const [isLottery, setIsLottery] = useState(false);
+  const [lotteryIndex, setLotteryIndex] = useState(0);
 
   const hook = () =>
     axios.get(baseUrl).then((res) => {
       setPrizePool(res.data);
+      console.log(res.data);
       setLoaded(true);
     });
 
   useEffect(hook, []);
 
   const handleLottery = () => {
+    if (isLottery) {
+      return;
+    }
+    setIsLottery(true);
+
     if (stone < 200) {
       alert("矿石不足");
       return;
     }
-
     //抽奖过程
     setStone(stone - 200);
-    const accProb = [];
-    prizePool
-      .map((p) => p.prob)
-      .reduce((pre, cur, i) => (accProb[i] = pre + cur), 0);
-    let lotteryIndex = Math.random();
-    for (let i = 0; i < accProb.length; i++) {
-      if (lotteryIndex <= accProb[i]) {
-        lotteryIndex = i + 1;
-        break;
-      }
-    }
+    axios.get(getPrize).then((res) => {
+      setLotteryList([...lotteryList, res.data]);
+      const currentPrize = res.data;
+      const index = prizePool.findIndex((item) => {
+        return item.id === currentPrize.id;
+      });
+      console.log(index);
+      setLotteryIndex(index); //更新中奖的index
+    });
+
     const move = lotteryIndex - 1 + 9 * 2;
-    // console.log('lo', lotteryIndex)
+    console.log("中奖的index:", lotteryIndex);
+
     let i = 1;
     let circleRun = setInterval(() => {
       if (i <= move) {
@@ -50,10 +58,14 @@ const App = () => {
         i++;
       } else {
         clearInterval(circleRun);
-        setLotteryList([...lotteryList, prizePool[lotteryIndex - 1]]);
+        setIsLottery(false);
+        if (lotteryIndex === 1) {
+          setStone(stone + 66);
+        }
       }
     }, 150);
   };
+
   return (
     <div>
       <div className="bg">
