@@ -10,11 +10,11 @@ const getPrize = "http://localhost:3000/prizeResult";
 const App = () => {
   const [prizePool, setPrizePool] = useState([]);
   const [stone, setStone] = useState(750);
-  const [lotteryList, setLotteryList] = useState([]);
+  // const [lotteryList, setLotteryList] = useState([]);
   const [active, setActive] = useState(null);
   const [loaded, setLoaded] = useState(false);
   const [isLottery, setIsLottery] = useState(false);
-  const [lotteryIndex, setLotteryIndex] = useState(null);
+  // const [lotteryIndex, setLotteryIndex] = useState(null);
 
   const getAll = () => {
     axios.get(baseUrl).then((res) => {
@@ -41,33 +41,34 @@ const App = () => {
     //抽奖过程
     setStone(stone - 200);
     //获取后端抽奖结果
-    getResult().then((res) => {
-      let { index } = res.data;
-      console.log("res.data:", index);
-      setLotteryIndex((lotteryIndex) => {
-        return (lotteryIndex = index);
+    getResult()
+      .then((res) => {
+        let { index } = res.data;
+        // console.log("res.data:", index);
+        lotteryIndex = index;
+        // console.log('l', lotteryIndex)
+        getData = true;
+      })
+      .then(() => {
+        console.log("l", lotteryIndex);
+        const move = lotteryIndex - 1 + 9 * 2;
+        let i = 1;
+        let circleRun = setInterval(() => {
+          if (i <= move) {
+            setActive((i + 1) % 9);
+            i++;
+          } else {
+            clearInterval(circleRun);
+            console.log("prize:", prizePool[lotteryIndex]);
+
+            console.log("lotteryList:", lotteryList);
+            setIsLottery(false);
+            if (lotteryIndex === 1) {
+              setStone(stone + 66);
+            }
+          }
+        }, 150);
       });
-    });
-
-    //动效
-    const move = 8 * 2 - lotteryIndex;
-    console.log("lotteryIndex", lotteryIndex);
-    let i = 1;
-    let circleRun = setInterval(() => {
-      if (i <= move) {
-        setActive(i % 8);
-        i++;
-      } else {
-        clearInterval(circleRun);
-        console.log("prize:", prizePool[lotteryIndex]);
-
-        console.log("lotteryList:", lotteryList);
-        setIsLottery(false);
-        if (lotteryIndex === 1) {
-          setStone(stone + 66);
-        }
-      }
-    }, 150);
   };
 
   return (
