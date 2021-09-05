@@ -4,7 +4,6 @@ import Item from "./components/Item";
 import Button from "./components/Button";
 import List from "./components/List";
 import "./App.css";
-
 const baseUrl = "http://localhost:3000/prizePool";
 const getPrize = "http://localhost:3000/prizeResult";
 
@@ -15,17 +14,39 @@ const App = () => {
   const [active, setActive] = useState(null);
   const [loaded, setLoaded] = useState(false);
   const [isLottery, setIsLottery] = useState(false);
-  const [lotteryIndex, setLotteryIndex] = useState(0);
+  const [lotteryIndex, setLotteryIndex] = useState(null);
 
-  const hook = () =>
+  const getAll = () => {
     axios.get(baseUrl).then((res) => {
       setPrizePool(res.data);
       console.log(res.data);
       setLoaded(true);
     });
+  };
+  const getResult = () => {
+    return axios.get(getPrize);
+  };
+  const circleRun = (lotteryIndex) => {
+    //先走500ms
+    let timer;
+    let i = 0;
+    let time = 500;
+    let activeR = (Math.random() * 10) % 8; //随机从某一个元素开始
+    timer = setInterval(() => {
+      if (i < time || (lotteryIndex && null)) {
+        setActive((preactive) => (preactive = (activeR + 1) % 8)); //向前挪动一个
+        console.log(active);
+        i++;
+      } else if (lotteryIndex == active) {
+        clearInterval(timer);
+        setIsLottery(false);
+      } else {
+        console.log("error");
+      }
+    }, 150);
+  };
 
-  useEffect(hook, []);
-  useEffect(() => {}, lotteryIndex);
+  useEffect(getAll, []);
 
   const handleLottery = () => {
     if (isLottery) {
@@ -40,29 +61,31 @@ const App = () => {
     //抽奖过程
     setStone(stone - 200);
     //获取后端抽奖结果
-    axios.get(getPrize).then((res) => {
-      const { index } = res.data;
-      console.log(index);
-      // setLotteryIndex(index); //更新中奖的index
+    getResult().then((res) => {
+      let { index } = res.data;
+      console.log("res.data:", index);
+      setLotteryIndex(index);
     });
 
-    // const move = lotteryIndex - 1 + 9 * 2;
-    // console.log("中奖的index:", lotteryIndex);
+    //动效
+    const move = lotteryIndex - 1 + 9 * 2;
+    console.log("lotteryIndex", lotteryIndex);
+    let i = 1;
+    let circleRun = setInterval(() => {
+      if (i <= move) {
+        setActive((i + 1) % 9);
+        i++;
+      } else {
+        clearInterval(circleRun);
+        console.log("prize:", prizePool[lotteryIndex]);
 
-    // let i = 1;
-    // let circleRun = setInterval(() => {
-    //   if (i <= move) {
-    //     setActive((i + 1) % 9);
-    //     i++;
-    //   } else {
-    //     clearInterval(circleRun);
-    //     setLotteryList([...lotteryList, prizePool[lotteryIndex]]);
-    //     setIsLottery(false);
-    //     if (lotteryIndex === 1) {
-    //       setStone(stone + 66);
-    //     }
-    //   }
-    // }, 150);
+        console.log("lotteryList:", lotteryList);
+        setIsLottery(false);
+        if (lotteryIndex === 1) {
+          setStone(stone + 66);
+        }
+      }
+    }, 150);
   };
 
   return (
@@ -114,12 +137,12 @@ const App = () => {
           <div className="loading">加载数据...</div>
         )}
       </div>
-
       <div className="lottery-list">
         <div className="list-head">获奖记录</div>
-        <ul>
-          <List list={lotteryList} />
-        </ul>
+        <ul>{/* <List list={lotteryList} /> */}</ul>
+        <div>active:{active}</div>
+        <div>lotteryIndex:{lotteryIndex}</div>
+        <div>prize:</div>
       </div>
     </div>
   );
