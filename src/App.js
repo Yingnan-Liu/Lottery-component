@@ -26,26 +26,6 @@ const App = () => {
   const getResult = () => {
     return axios.get(getPrize);
   };
-  const circleRun = (lotteryIndex) => {
-    //先走500ms
-    let timer;
-    let i = 0;
-    let time = 500;
-    let activeR = (Math.random() * 10) % 8; //随机从某一个元素开始
-    timer = setInterval(() => {
-      if (i < time || (lotteryIndex && null)) {
-        setActive((preactive) => (preactive = (activeR + 1) % 8)); //向前挪动一个
-        console.log(active);
-        i++;
-      } else if (lotteryIndex == active) {
-        clearInterval(timer);
-        setIsLottery(false);
-      } else {
-        console.log("error");
-      }
-    }, 150);
-  };
-
   useEffect(getAll, []);
 
   const handleLottery = () => {
