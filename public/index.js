@@ -1,5 +1,6 @@
 $("#start").click(function() {
-  $.post("/");
+  // $.post("/");
+  $get("/prizeResult")
   $("#start").addClass("pressed");
   setTimeout(function() {
     $("#start").removeClass("pressed");
