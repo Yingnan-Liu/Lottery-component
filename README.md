@@ -1,9 +1,9 @@
-# Lottery-component
-🎟 九宫格抽奖
+# 🎟 九宫格抽奖
+
 
 ### 项目演示
 
-
+![demo](src/images/lottery-demo.gif)
 
 ### 项目部署
 
