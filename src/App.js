@@ -25,6 +25,7 @@ const App = () => {
     });
 
   useEffect(hook, []);
+  useEffect(() => {}, lotteryIndex);
 
   const handleLottery = () => {
     if (isLottery) {
@@ -38,32 +39,30 @@ const App = () => {
     }
     //抽奖过程
     setStone(stone - 200);
+    //获取后端抽奖结果
     axios.get(getPrize).then((res) => {
-      setLotteryList([...lotteryList, res.data]);
-      const currentPrize = res.data;
-      const index = prizePool.findIndex((item) => {
-        return item.id === currentPrize.id;
-      });
+      const { index } = res.data;
       console.log(index);
-      setLotteryIndex(index); //更新中奖的index
+      // setLotteryIndex(index); //更新中奖的index
     });
 
-    const move = lotteryIndex - 1 + 9 * 2;
-    console.log("中奖的index:", lotteryIndex);
+    // const move = lotteryIndex - 1 + 9 * 2;
+    // console.log("中奖的index:", lotteryIndex);
 
-    let i = 1;
-    let circleRun = setInterval(() => {
-      if (i <= move) {
-        setActive((i + 1) % 9);
-        i++;
-      } else {
-        clearInterval(circleRun);
-        setIsLottery(false);
-        if (lotteryIndex === 1) {
-          setStone(stone + 66);
-        }
-      }
-    }, 150);
+    // let i = 1;
+    // let circleRun = setInterval(() => {
+    //   if (i <= move) {
+    //     setActive((i + 1) % 9);
+    //     i++;
+    //   } else {
+    //     clearInterval(circleRun);
+    //     setLotteryList([...lotteryList, prizePool[lotteryIndex]]);
+    //     setIsLottery(false);
+    //     if (lotteryIndex === 1) {
+    //       setStone(stone + 66);
+    //     }
+    //   }
+    // }, 150);
   };
 
   return (
@@ -84,6 +83,9 @@ const App = () => {
                 </div>
               </div>
               <div className="row">
+                <div>
+                  <Item num={8} prize={prizePool[7]} active={active} />
+                </div>
                 <div>
                   <Button handleLottery={handleLottery} />
                 </div>
