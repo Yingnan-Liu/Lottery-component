@@ -2,7 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 
-app.use(express.static("public"));
+// app.use(express.static("public"));
+app.use(express.static("build"));
 app.use(cors());
 app.get("/testPage", function (req, res) {
   res.sendFile(__dirname + "/index.html");
@@ -37,9 +38,7 @@ var prize;
 //抽奖函数
 function lotteryBegin() {
   //let num = tal/threshold; // 随机数范围 = 礼品总数 / 总中奖率
-
   let random = Math.floor(Math.random() * tal);
-
   let cur = 0;
   for (let j = 0; j < goods.length; j++) {
     let next = cur + goods[j].total;
