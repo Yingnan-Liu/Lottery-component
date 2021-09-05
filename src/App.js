@@ -44,16 +44,18 @@ const App = () => {
     getResult().then((res) => {
       let { index } = res.data;
       console.log("res.data:", index);
-      setLotteryIndex(index);
+      setLotteryIndex((lotteryIndex) => {
+        return (lotteryIndex = index);
+      });
     });
 
     //动效
-    const move = lotteryIndex - 1 + 9 * 2;
+    const move = 8 * 2 - lotteryIndex;
     console.log("lotteryIndex", lotteryIndex);
     let i = 1;
     let circleRun = setInterval(() => {
       if (i <= move) {
-        setActive((i + 1) % 9);
+        setActive(i % 8);
         i++;
       } else {
         clearInterval(circleRun);
@@ -122,7 +124,6 @@ const App = () => {
         <ul>{/* <List list={lotteryList} /> */}</ul>
         <div>active:{active}</div>
         <div>lotteryIndex:{lotteryIndex}</div>
-        <div>prize:</div>
       </div>
     </div>
   );
