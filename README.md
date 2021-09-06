@@ -3,7 +3,7 @@
 
 ### 项目演示
 
-![demo](src/images/lottery-demo.gif)
+![demo](./lottery-demo.gif)
 
 ### 项目部署
 
