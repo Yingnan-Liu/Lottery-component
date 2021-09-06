@@ -4,18 +4,18 @@ import Item from "./components/Item";
 import Button from "./components/Button";
 import List from "./components/List";
 import "./App.css";
-const baseUrl = "http://localhost:3000/prizePool";
-const getPrize = "http://localhost:3000/prizeResult";
+const baseUrl = "/prizePool";
+const getPrize = "/prizeResult";
 
 const App = () => {
   const [prizePool, setPrizePool] = useState([]);
   const [stone, setStone] = useState(750);
-  // const [lotteryList, setLotteryList] = useState([]);
+  const [lotteryList, setLotteryList] = useState([]);
   const [active, setActive] = useState(null);
   const [loaded, setLoaded] = useState(false);
   const [isLottery, setIsLottery] = useState(false);
   // const [lotteryIndex, setLotteryIndex] = useState(null);
-
+  let lotteryIndex;
   const getAll = () => {
     axios.get(baseUrl).then((res) => {
       setPrizePool(res.data);
@@ -46,12 +46,12 @@ const App = () => {
         let { index } = res.data;
         // console.log("res.data:", index);
         lotteryIndex = index;
-        // console.log('l', lotteryIndex)
-        getData = true;
+        console.log("lo", lotteryIndex);
+        // getData = true;
       })
       .then(() => {
         console.log("l", lotteryIndex);
-        const move = lotteryIndex - 1 + 9 * 2;
+        const move = lotteryIndex + 9 * 2;
         let i = 1;
         let circleRun = setInterval(() => {
           if (i <= move) {
@@ -60,7 +60,7 @@ const App = () => {
           } else {
             clearInterval(circleRun);
             console.log("prize:", prizePool[lotteryIndex]);
-
+            setLotteryList([...lotteryList, prizePool[lotteryIndex]]);
             console.log("lotteryList:", lotteryList);
             setIsLottery(false);
             if (lotteryIndex === 1) {
@@ -122,9 +122,11 @@ const App = () => {
       </div>
       <div className="lottery-list">
         <div className="list-head">获奖记录</div>
-        <ul>{/* <List list={lotteryList} /> */}</ul>
-        <div>active:{active}</div>
-        <div>lotteryIndex:{lotteryIndex}</div>
+        <ul>
+          <List list={lotteryList} />
+        </ul>
+        {/* <div>active:{active}</div> */}
+        {/* <div>lotteryIndex:{lotteryIndex}</div> */}
       </div>
     </div>
   );
